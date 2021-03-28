@@ -1,5 +1,6 @@
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import React from "react";
+import db from "./firebase";
 
 const mapStyles = {
 	width: "100%",
@@ -9,17 +10,31 @@ const mapStyles = {
 export class MapComponent extends React.Component {
 	constructor(props) {
 		super(props);
-
+		this.upload = null;
 		this.state = {
-			stores: [
-				{ latitude: 11.0536938, longitude: 78.0138657 },
-				{ latitude: 47.359423, longitude: -122.021071 },
-				{ latitude: 47.2052192687988, longitude: -121.988426208496 },
-				{ latitude: 47.6307081, longitude: -122.1434325 },
-				{ latitude: 47.3084488, longitude: -122.2140121 },
-				{ latitude: 0.5524695, longitude: -122.0425407 },
-			],
+			stores: [],
 		};
+	}
+
+	onCollectionUpdate = (querySnapshot) => {
+		const stores = [];
+		querySnapshot.forEach((doc) => {
+			const { latitude, longitude } = doc.data();
+			stores.push({
+				latitude,
+				longitude,
+			});
+		});
+		this.setState({
+			stores,
+		});
+		console.log(stores);
+	};
+
+	componentDidMount() {
+		this.upload = db
+			.collection("coordinates")
+			.onSnapshot(this.onCollectionUpdate);
 	}
 
 	displayMarkers = () => {
@@ -43,7 +58,7 @@ export class MapComponent extends React.Component {
 				google={this.props.google}
 				zoom={15}
 				style={mapStyles}
-				initialCenter={{ lat: 11.0536938, lng: 77.0138657 }}
+				initialCenter={{ lat: 47.359423, lng: -122.021071 }}
 			>
 				{this.displayMarkers()}
 			</Map>
