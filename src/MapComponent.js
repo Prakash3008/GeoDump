@@ -13,6 +13,8 @@ export class MapComponent extends React.Component {
 		this.upload = null;
 		this.state = {
 			stores: [],
+			lati: null,
+			longi: null,
 		};
 	}
 
@@ -58,7 +60,10 @@ export class MapComponent extends React.Component {
 				google={this.props.google}
 				zoom={15}
 				style={mapStyles}
-				initialCenter={{ lat: 47.359423, lng: -122.021071 }}
+				initialCenter={{
+					lat: 11.0536938,
+					lng: 78.0138657,
+				}}
 			>
 				{this.displayMarkers()}
 			</Map>
