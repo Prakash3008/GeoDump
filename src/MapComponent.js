@@ -38,7 +38,7 @@ export class MapComponent extends React.Component {
 			.collection("coordinates")
 			.onSnapshot(this.onCollectionUpdate);
 	}
-
+	
 	displayMarkers = () => {
 		return this.state.stores.map((store, index) => {
 			return (
@@ -49,7 +49,7 @@ export class MapComponent extends React.Component {
 						lat: store.latitude,
 						lng: store.longitude,
 					}}
-					onClick={() => console.log("You clicked me!")}
+					onClick={() => console.log("On marker click")}
 				/>
 			);
 		});
